@@ -35,3 +35,7 @@ uv run --no-sync pytest -q tests
 用户可以在面板里填仓库地址用 Git 安装，也可以导入 Release 里的 ZIP。配置或数据格式有变化时写在 README 里；回退源码不会回退已经存下的数据。
 
 接口、生命周期和配置说明见宿主仓库的 `developer/plugins-v1.md`。
+
+## 许可证
+
+模板采用 [GPL-3.0-only](LICENSE)。LenBot 宿主采用 AGPL-3.0-only，插件和宿主运行在同一个进程里，推荐插件也使用 GPL-3.0；改用其他许可证前请确认它与 GPLv3／AGPLv3 兼容。

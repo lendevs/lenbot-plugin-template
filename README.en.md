@@ -35,3 +35,7 @@ Tests use the host's `PluginTest` harness to simulate messages and configuration
 Users can install from the repository URL with Git in the panel, or import the ZIP from the Release. Document configuration or data format changes in the README; rolling back source does not roll back stored data.
 
 See `developer/plugins-v1.en.md` in the host repository for the interface, lifecycle and configuration.
+
+## License
+
+The template is [GPL-3.0-only](LICENSE). The LenBot host is AGPL-3.0-only and plugins run in the host process, so GPL-3.0 is the recommended plugin license; if you choose another license, check its compatibility with GPLv3 and AGPLv3.
