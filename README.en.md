@@ -39,3 +39,7 @@ See `developer/plugins-v1.en.md` in the host repository for the interface, lifec
 ## License
 
 The template is [GPL-3.0-only](LICENSE). The LenBot host is AGPL-3.0-only and plugins run in the host process, so GPL-3.0 is the recommended plugin license; if you choose another license, check its compatibility with GPLv3 and AGPLv3.
+
+Tool interface 1 now uses explicit discovery summaries, shared `prompts/tools.md` instructions and native JSON results. `counter_read` returns data; `counter_card` starts background model generation and sends the completed text itself. Use `PluginTest.preview_tools()` to inspect the actual schemas. Tests do not call a model unless `models=` is explicitly provided. See CHANGELOG.md for the final 0.2.0 host baseline requirement.
+
+Group tools by user capability rather than HTTP endpoint. Keep data lookup and actual delivery separate. Use a discriminated request union for related search/detail operations, with strict models forbidding unrelated fields. Inspect both the discovery catalog and loaded schema: fewer names alone do not guarantee smaller context. This template retains two useful capabilities.
