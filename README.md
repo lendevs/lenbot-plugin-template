@@ -26,7 +26,7 @@
 uv run --no-sync pytest -q tests
 ```
 
-测试用宿主提供的 `PluginTest` 模拟消息和配置，不用启动 LenBot。CI 会安装 `.github/workflows/ci.yml` 里固定的宿主版本再跑测试，升级宿主时改这个版本。
+测试用宿主提供的 `PluginTest` 模拟消息和配置，不用启动 LenBot。CI 调用 LenBot 提供的可复用工作流，默认用宿主 `master` 跑测试和打包检查；需要固定宿主版本时在 `.github/workflows/ci.yml` 里传 `host_ref`。
 
 ## 发布
 
@@ -45,7 +45,7 @@ uv run --no-sync pytest -q tests
 
 工具采用接口 1 的显式简介、Field 参数说明与 `prompts/tools.md` 共享指南，返回原生 JSON 或文本。用 `PluginTest.preview_tools()` 查看模型说明、参数与可用性；模型服务默认关闭，真实发送仍单独核对。兼容和更新事项见 [CHANGELOG](CHANGELOG.md)。
 
-CI 固定到包含当前插件接口的宿主开发提交；本次未创建版本标签或 Release。catalog-entry.json 只记录开发安装来源，未公开插件不加入主目录。
+CI 调用 LenBot 的可复用工作流，跟随宿主 master 测试；本次未创建版本标签或 Release。catalog-entry.json 只记录开发安装来源，未公开插件不加入主目录。
 
 本机生成 ZIP（LenBot 仓库与本仓库放在同一目录下）：`uv run --no-project --python 3.13 python ../LenBot/scripts/package_plugin.py . /tmp/plugin.zip`。打包取 Git 已跟踪的运行源码和资源，新增文件需先加入 Git；不会收录本机环境、测试或配置。
 
