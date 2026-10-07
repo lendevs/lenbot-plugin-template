@@ -1,0 +1,25 @@
+{
+  "name": "counter",
+  "title": "插件模板",
+  "description": "每群独立计数：命令直接回复、只读 JSON 查询、按需后台模型说明与自行发送。",
+  "authors": [
+    "LEN5010"
+  ],
+  "license": "GPL-3.0-only",
+  "version": "1.1.0",
+  "interface": 1,
+  "requires_lenbot": ">=0.2,<1",
+  "category": "开发示例",
+  "capabilities": [
+    "JSON 查询",
+    "后台生成与发送"
+  ],
+  "usage": [
+    "配置后选择启用的群；模型工具需要当前角色许可。",
+    "参数、共享指南与实际发送语义可在群聊工具页预览。",
+    "最低宿主基线和来源参数变更见 CHANGELOG.md。"
+  ],
+  "install": "git",
+  "repository": "https://github.com/lendevs/lenbot-plugin-template",
+  "ref": "main"
+}
