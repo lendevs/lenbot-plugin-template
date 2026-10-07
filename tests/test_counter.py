@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from len_bot.next.plugin_testing import PluginTest
+from len_bot.plugin_testing import PluginTest
 
 
 @pytest.mark.asyncio

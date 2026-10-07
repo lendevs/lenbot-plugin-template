@@ -25,7 +25,7 @@ Counts are stored per group and survive source updates.
 uv run --no-sync pytest -q tests
 ```
 
-Tests use the host's `PluginTest` harness to simulate messages and configuration, so LenBot does not need to run. CI installs the host version pinned in `.github/workflows/ci.yml`; update it when you move to a newer host.
+Tests use the host's `PluginTest` harness to simulate messages and configuration, so LenBot does not need to run. CI calls LenBot's reusable workflow, which tests and packages the plugin against host `master` by default; pass `host_ref` in `.github/workflows/ci.yml` to pin a host version.
 
 ## Releasing
 
