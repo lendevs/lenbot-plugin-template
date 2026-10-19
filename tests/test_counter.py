@@ -58,3 +58,13 @@ async def test_background_generation_uses_explicit_model_protocol_and_simulated_
         assert bot.deliveries[-1].text == '当前计数为 2。'
         assert bot.deliveries[-1].status == 'simulated'
         assert bot.events()
+
+
+@pytest.mark.asyncio
+async def test_plain_counter_rules_do_not_consume_mentions_or_images():
+    from len_bot.plugin import Segment
+    async with PluginTest(Path(__file__).parents[1]) as bot:
+        assert not await bot.message('计数加一', parts=[Segment('mention', {'user': 'onebot:70002'})])
+        assert not await bot.message('/计数', parts=[Segment('image', {'url': 'https://example.invalid/image.png'})])
+        assert json.loads(await bot.tool('counter_read', {}))['count'] == 0
+        assert not bot.deliveries

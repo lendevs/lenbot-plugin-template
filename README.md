@@ -56,3 +56,9 @@ CI 调用 LenBot 的可复用工作流，跟随宿主 master 测试；本次未�
 同一能力需要多种操作时，可用 `request: Annotated[SearchRequest | ReadRequest, Field(discriminator="action")]`；各 Request 继承配置 `ConfigDict(strict=True, extra="forbid")` 的 BaseModel，并分别声明 `action: Literal["search"]`／`Literal["read"]` 和所需字段。列表、详情使用同一工具；查询和真实发送／账号写入保持清楚的边界。不要堆一组互斥可选参数。
 
 用 PluginTest.preview_tools() 核对实际工具数、发现目录、共享指南与每个操作的 schema。工具数量减少不等于 schema 一定减少，检查目录和真实加载内容；已有生成 title 在模型参数中去掉，Field 的说明、示例和约束保留。
+
+## 宿主能力与验证范围
+
+清单明确声明 `send`、`generate`、`events`。这些权限约束宿主提供的能力，不限制插件自行执行的 Python 或网络访问。插件运行在宿主进程中；当前功能使用工具或后台协程，保持 `isolation = "inline"`。
+
+本机协议测试只使用临时配置和模拟发送。测试通过不代表真实模型理解、外部服务或平台送达已验证；真实费用、账号写操作和群发送需要分别授权。

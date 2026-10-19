@@ -6,7 +6,7 @@
     "LEN5010"
   ],
   "license": "GPL-3.0-only",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "interface": 1,
   "requires_lenbot": ">=0.2,<1",
   "category": "开发示例",
@@ -21,5 +21,10 @@
   ],
   "install": "git",
   "repository": "https://github.com/lendevs/lenbot-plugin-template",
-  "ref": "main"
+  "ref": "main",
+  "permissions": [
+    "send",
+    "generate",
+    "events"
+  ]
 }
