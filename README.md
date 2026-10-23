@@ -15,10 +15,10 @@
 - `/计数`：读当前群的计数。
 - `计数加一`：按配置里的 `step` 增加。
 - `/计数清零`：清零。
-- 工具 `counter_read`：返回当前群的计数 JSON，不发消息。
+- 工具 `counter_read`：返回当前群的计数 JSON。
 - 工具 `counter_card`：后台生成计数说明后自行发送；需要宿主配置模型。
 
-计数按群分开存，更新插件源码不会清掉。
+计数按群分开存，更新插件源码后保留。
 
 ## 测试
 
@@ -26,14 +26,14 @@
 uv run --no-sync pytest -q tests
 ```
 
-测试用宿主提供的 `PluginTest` 模拟消息和配置，不用启动 LenBot。CI 调用 LenBot 提供的可复用工作流，默认用宿主 `master` 跑测试和打包检查；需要固定宿主版本时在 `.github/workflows/ci.yml` 里传 `host_ref`。
+测试用宿主提供的 `PluginTest` 模拟消息和配置，直接在本仓库运行。CI 调用 LenBot 提供的可复用工作流，默认用宿主 `master` 跑测试和打包检查；需要固定宿主版本时在 `.github/workflows/ci.yml` 里传 `host_ref`。
 
 ## 发布
 
 1. 改 `plugin.toml` 的版本号并提交。
 2. 打 `v*` 标签，工作流会生成 ZIP 并挂到 GitHub Release。
 
-用户可以在面板里填仓库地址用 Git 安装，也可以导入 Release 里的 ZIP。配置或数据格式有变化时写在 README 里；回退源码不会回退已经存下的数据。
+用户可以在面板里填仓库地址用 Git 安装，也可以导入 Release 里的 ZIP。配置或数据格式有变化时写在 README 里；回退源码时，已经存下的数据保持原样。
 
 接口、生命周期和配置说明见宿主仓库的 `developer/plugins-v1.md`。
 
@@ -43,11 +43,11 @@ uv run --no-sync pytest -q tests
 
 ## 工具接口
 
-工具采用接口 1 的显式简介、Field 参数说明与 `prompts/tools.md` 共享指南，返回原生 JSON 或文本。用 `PluginTest.preview_tools()` 查看模型说明、参数与可用性；模型服务默认关闭，真实发送仍单独核对。兼容和更新事项见 [CHANGELOG](CHANGELOG.md)。
+工具采用接口 1 的显式简介、Field 参数说明与 `prompts/tools.md` 共享指南，返回原生 JSON 或文本。用 `PluginTest.preview_tools()` 查看模型说明、参数与可用性；测试里模型服务默认关闭。兼容和更新事项见 [CHANGELOG](CHANGELOG.md)。
 
-CI 调用 LenBot 的可复用工作流，跟随宿主 master 测试；本次未创建版本标签或 Release。catalog-entry.json 只记录开发安装来源，未公开插件不加入主目录。
+CI 调用 LenBot 的可复用工作流，跟随宿主 master 测试。catalog-entry.json 记录目录条目的安装来源。
 
-本机生成 ZIP（LenBot 仓库与本仓库放在同一目录下）：`uv run --no-project --python 3.13 python ../LenBot/scripts/package_plugin.py . /tmp/plugin.zip`。打包取 Git 已跟踪的运行源码和资源，新增文件需先加入 Git；不会收录本机环境、测试或配置。
+本机生成 ZIP（LenBot 仓库与本仓库放在同一目录下）：`uv run --no-project --python 3.13 python ../LenBot/scripts/package_plugin.py . /tmp/plugin.zip`。打包取 Git 已跟踪的运行源码和资源，新增文件需先加入 Git。
 
 ## 工具数量与能力边界
 
@@ -55,4 +55,4 @@ CI 调用 LenBot 的可复用工作流，跟随宿主 master 测试；本次未�
 
 同一能力需要多种操作时，可用 `request: Annotated[SearchRequest | ReadRequest, Field(discriminator="action")]`；各 Request 继承配置 `ConfigDict(strict=True, extra="forbid")` 的 BaseModel，并分别声明 `action: Literal["search"]`／`Literal["read"]` 和所需字段。列表、详情使用同一工具；查询和真实发送／账号写入保持清楚的边界。不要堆一组互斥可选参数。
 
-用 PluginTest.preview_tools() 核对实际工具数、发现目录、共享指南与每个操作的 schema。工具数量减少不等于 schema 一定减少，检查目录和真实加载内容；已有生成 title 在模型参数中去掉，Field 的说明、示例和约束保留。
+用 PluginTest.preview_tools() 核对实际工具数、发现目录、共享指南与每个操作的 schema。工具数量和 schema 大小分开核对，检查目录和真实加载内容；已有生成 title 在模型参数中去掉，Field 的说明、示例和约束保留。
