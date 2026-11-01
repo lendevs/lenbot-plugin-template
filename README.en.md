@@ -25,7 +25,7 @@ Counts are stored per group and survive source updates.
 uv run --no-sync pytest -q tests
 ```
 
-Tests use the host's `PluginTest` harness to simulate messages and configuration, so they run directly in this repository. For Telegram or Feishu groups, pass the bot account with `bots`, for example `PluginTest(package, scenes=("telegram:group:-1001234",), bots={"telegram": "telegram:7001"})`. CI calls LenBot's reusable workflow, which tests and packages the plugin against host `master` by default; pass `host_ref` in `.github/workflows/ci.yml` to pin a host version.
+Tests use the host's `PluginTest` harness to simulate messages and configuration, so they run directly in this repository. Pass platform scene IDs in `scenes` to verify simulated messages, for example `PluginTest(package, scenes=("telegram:group:-1001234",))`. CI calls LenBot's reusable workflow, which tests and packages the plugin against host `master` by default; pass `host_ref` in `.github/workflows/ci.yml` to pin a host version.
 
 ## Releasing
 
