@@ -26,7 +26,7 @@
 uv run --no-sync pytest -q tests
 ```
 
-测试用宿主提供的 `PluginTest` 模拟消息和配置，直接在本仓库运行。CI 调用 LenBot 提供的可复用工作流，默认用宿主 `master` 跑测试和打包检查；需要固定宿主版本时在 `.github/workflows/ci.yml` 里传 `host_ref`。
+测试用宿主提供的 `PluginTest` 模拟消息和配置，直接在本仓库运行。Telegram、飞书的群用 `bots` 参数给出 Bot 账号，例如 `PluginTest(package, scenes=("telegram:group:-1001234",), bots={"telegram": "telegram:7001"})`。CI 调用 LenBot 提供的可复用工作流，默认用宿主 `master` 跑测试和打包检查；需要固定宿主版本时在 `.github/workflows/ci.yml` 里传 `host_ref`。
 
 ## 发布
 

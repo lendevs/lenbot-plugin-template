@@ -21,6 +21,15 @@ async def test_counter_keeps_scenes_separate_and_uses_saved_step():
 
 
 @pytest.mark.asyncio
+async def test_counter_works_the_same_in_a_telegram_group():
+    scenes = ('onebot:group:80001', 'telegram:group:-1001234')
+    async with PluginTest(Path(__file__).parents[1], scenes=scenes, bots={'telegram': 'telegram:7001'}) as bot:
+        assert await bot.message('计数加一', scene=scenes[1], sender='telegram:501')
+        assert (bot.deliveries[-1].scene, bot.deliveries[-1].text) == (scenes[1], '本群计数：1')
+        assert json.loads(await bot.tool('counter_read', {}, scene=scenes[0]))['count'] == 0
+
+
+@pytest.mark.asyncio
 async def test_background_generation_uses_explicit_model_protocol_and_simulated_send():
     import asyncio
     import re
